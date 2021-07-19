@@ -114,7 +114,7 @@ img, label = train_generator.next()
 
 ## Loading VGG16 model
 base_model = VGG16(weights="imagenet", include_top=False, input_shape=img[0].shape)
-base_model.trainable = True ## trainable weights
+base_model.trainable = False ## trainable weights
 
 # %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:57.789015Z","iopub.execute_input":"2021-07-18T17:52:57.789368Z","iopub.status.idle":"2021-07-18T17:52:57.880272Z","shell.execute_reply.started":"2021-07-18T17:52:57.789329Z","shell.execute_reply":"2021-07-18T17:52:57.879293Z"}}
 from tensorflow.keras import layers, models

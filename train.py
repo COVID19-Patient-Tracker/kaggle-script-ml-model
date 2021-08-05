@@ -1,4 +1,4 @@
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:55.292714Z","iopub.execute_input":"2021-07-18T17:52:55.293076Z","iopub.status.idle":"2021-07-18T17:52:55.328604Z","shell.execute_reply.started":"2021-07-18T17:52:55.293043Z","shell.execute_reply":"2021-07-18T17:52:55.327698Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-08-05T09:07:49.359329Z","iopub.execute_input":"2021-08-05T09:07:49.359704Z","iopub.status.idle":"2021-08-05T09:07:53.061279Z","shell.execute_reply.started":"2021-08-05T09:07:49.359671Z","shell.execute_reply":"2021-08-05T09:07:53.060499Z"}}
 # This Python 3 environment comes with many helpful analytics libraries installed
 # It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
 # For example, here's several helpful packages to load
@@ -18,7 +18,7 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 # You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
 # You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:55.330372Z","iopub.execute_input":"2021-07-18T17:52:55.330731Z","iopub.status.idle":"2021-07-18T17:52:55.336986Z","shell.execute_reply.started":"2021-07-18T17:52:55.330692Z","shell.execute_reply":"2021-07-18T17:52:55.335791Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-08-05T09:07:53.062561Z","iopub.execute_input":"2021-08-05T09:07:53.062976Z","iopub.status.idle":"2021-08-05T09:08:00.320983Z","shell.execute_reply.started":"2021-08-05T09:07:53.062946Z","shell.execute_reply":"2021-08-05T09:08:00.319617Z"}}
 # import libraries
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,7 +33,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.applications.vgg16 import preprocess_input
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:55.370963Z","iopub.execute_input":"2021-07-18T17:52:55.371336Z","iopub.status.idle":"2021-07-18T17:52:57.787408Z","shell.execute_reply.started":"2021-07-18T17:52:55.371305Z","shell.execute_reply":"2021-07-18T17:52:57.786513Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-08-05T09:08:00.323233Z","iopub.execute_input":"2021-08-05T09:08:00.323782Z","iopub.status.idle":"2021-08-05T09:08:05.193925Z","shell.execute_reply.started":"2021-08-05T09:08:00.323734Z","shell.execute_reply":"2021-08-05T09:08:05.192722Z"}}
 # train dataset file path
 train_file_path = '../input/coronahack-chest-xraydataset/Coronahack-Chest-XRay-Dataset/Coronahack-Chest-XRay-Dataset/train'
 
@@ -64,7 +64,7 @@ train_generator = train_datagen.flow_from_dataframe(
     color_mode="rgb",
     classes=["Normal","Pnemonia"],
     class_mode="categorical",
-    batch_size=20,
+    batch_size=48,
     shuffle=True,
     seed=None,
     save_to_dir=None,
@@ -116,13 +116,20 @@ img, label = train_generator.next()
 base_model = VGG16(weights="imagenet", include_top=False, input_shape=img[0].shape)
 base_model.trainable = False ## trainable weights
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:57.789015Z","iopub.execute_input":"2021-07-18T17:52:57.789368Z","iopub.status.idle":"2021-07-18T17:52:57.880272Z","shell.execute_reply.started":"2021-07-18T17:52:57.789329Z","shell.execute_reply":"2021-07-18T17:52:57.879293Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-08-05T09:08:05.197886Z","iopub.execute_input":"2021-08-05T09:08:05.198224Z","iopub.status.idle":"2021-08-05T09:08:05.351097Z","shell.execute_reply.started":"2021-08-05T09:08:05.198194Z","shell.execute_reply":"2021-08-05T09:08:05.350143Z"}}
 from tensorflow.keras import layers, models
 
 # adding our custom layers to this specific scope
 flatten_layer = layers.Flatten()
-dense_layer_1 = layers.Dense(40, activation='relu')
-dense_layer_2 = layers.Dense(20, activation='relu')
+dense_layer_1 = layers.Dense(50, activation='relu')
+dense_layer_2 = layers.Dense(50, activation='relu')
+dense_layer_3 = layers.Dense(50, activation='relu')
+dense_layer_4 = layers.Dense(40, activation='relu')
+dense_layer_5 = layers.Dense(20, activation='relu')
+dense_layer_6 = layers.Dense(20, activation='relu')
+dense_layer_7 = layers.Dense(20, activation='relu')
+dense_layer_8 = layers.Dense(20, activation='relu')
+dense_layer_9 = layers.Dense(20, activation='relu')
 prediction_layer = layers.Dense(2, activation='softmax')
 
 # A Sequential model is appropriate for a plain stack of layers where each
@@ -134,10 +141,17 @@ model = models.Sequential([
     flatten_layer,
     dense_layer_1,
     dense_layer_2,
+    dense_layer_3,
+    dense_layer_4,
+    dense_layer_5,
+    dense_layer_6,
+    dense_layer_7,
+    dense_layer_8,
+    dense_layer_9,
     prediction_layer
 ])
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T17:52:57.88222Z","iopub.execute_input":"2021-07-18T17:52:57.882662Z","iopub.status.idle":"2021-07-18T18:06:00.230676Z","shell.execute_reply.started":"2021-07-18T17:52:57.882616Z","shell.execute_reply":"2021-07-18T18:06:00.229903Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-08-05T09:08:05.352312Z","iopub.execute_input":"2021-08-05T09:08:05.352646Z"}}
 from tensorflow.keras.callbacks import EarlyStopping
 
 # compile the model
@@ -154,7 +168,7 @@ es = EarlyStopping(monitor='val_accuracy', mode='max', patience=5,  restore_best
 # train_ds,train_labels = train_generator.next() 
 
 # train the model
-history = model.fit(train_generator, epochs=10, callbacks=None,validation_data=val_generator)
+history = model.fit(train_generator, epochs=20, callbacks=None,validation_data=val_generator)
 
 # historyA =model.evaluate(val_generator)
 
@@ -175,7 +189,13 @@ plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 plt.show()
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:00.232289Z","iopub.execute_input":"2021-07-18T18:06:00.232632Z","iopub.status.idle":"2021-07-18T18:06:01.113942Z","shell.execute_reply.started":"2021-07-18T18:06:00.232597Z","shell.execute_reply":"2021-07-18T18:06:01.112881Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
+class bcolors:
+    OK = '\033[92m' #GREEN
+    WARNING = '\033[93m' #YELLOW
+    FAIL = '\033[91m' #RED
+    RESET = '\033[0m' #RESET COLOR
+
 model.save(
     './assets/n_model.h5',
     overwrite=True,
@@ -185,29 +205,56 @@ model.save(
     options=None,
     save_traces=True,
 )
-img, label = train_generator.next()
 
-model.predict(img)
+print(bcolors.OK + "File Saved Successfully!" + bcolors.RESET)
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.115795Z","iopub.execute_input":"2021-07-18T18:06:01.116268Z","iopub.status.idle":"2021-07-18T18:06:01.123505Z","shell.execute_reply.started":"2021-07-18T18:06:01.116221Z","shell.execute_reply":"2021-07-18T18:06:01.122205Z"}}
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return [idx,array[idx]]
+
+def get_predicted_value(label,predicted):
+    actual = "Normal" if find_nearest(label,1)[0] == 0 else "Pneumonia"
+    prediction = find_nearest(predicted,1)
+    prediction_class = "Normal" if prediction[0] == 0 else "Pneumonia"
+    prediction_value = prediction[1] * 100
+    return [actual,prediction_class,prediction_value]
+
+
+
+for _ in range(1):
+    img, label = val_generator.next()
+    for i in range(10):
+        plt.imshow(img[i])
+        plt.show()
+        [actual,prediction_class,prediction_value] = get_predicted_value(label[i],model.predict(img)[i])
+        if(actual == prediction_class):
+            color = bcolors.OK
+        else:
+            color = bcolors.FAIL
+        print(color + f'predicted {prediction_class} with vaule {prediction_value}\nactual {actual}' + bcolors.RESET)
+
+
+
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 print(label)
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.12528Z","iopub.execute_input":"2021-07-18T18:06:01.125787Z","iopub.status.idle":"2021-07-18T18:06:01.145023Z","shell.execute_reply.started":"2021-07-18T18:06:01.125741Z","shell.execute_reply":"2021-07-18T18:06:01.144116Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 train_dataset_metadata_df = metadata_df[metadata_df.Dataset_type.isin(['TRAIN'])]
 train_dataset_metadata_df = train_dataset_metadata_df.sort_values(by="X_ray_image_name")
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.14644Z","iopub.execute_input":"2021-07-18T18:06:01.146801Z","iopub.status.idle":"2021-07-18T18:06:01.156055Z","shell.execute_reply.started":"2021-07-18T18:06:01.146764Z","shell.execute_reply":"2021-07-18T18:06:01.155171Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 test_dataset_metadata_df = metadata_df[metadata_df.Dataset_type.isin(['TEST'])]
 test_dataset_metadata_df = test_dataset_metadata_df.sort_values(by="X_ray_image_name")
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.158865Z","iopub.execute_input":"2021-07-18T18:06:01.159253Z","iopub.status.idle":"2021-07-18T18:06:01.177583Z","shell.execute_reply.started":"2021-07-18T18:06:01.159214Z","shell.execute_reply":"2021-07-18T18:06:01.176473Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 train_dataset_metadata_df.head()
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.179581Z","iopub.execute_input":"2021-07-18T18:06:01.180043Z","iopub.status.idle":"2021-07-18T18:06:01.19861Z","shell.execute_reply.started":"2021-07-18T18:06:01.180002Z","shell.execute_reply":"2021-07-18T18:06:01.197567Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 train_dataset_metadata_df.tail()
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.199971Z","iopub.execute_input":"2021-07-18T18:06:01.200339Z","iopub.status.idle":"2021-07-18T18:06:01.222566Z","shell.execute_reply.started":"2021-07-18T18:06:01.200291Z","shell.execute_reply":"2021-07-18T18:06:01.221612Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 test_dataset_metadata_df.head(100)
 
-# %% [code] {"jupyter":{"outputs_hidden":false},"execution":{"iopub.status.busy":"2021-07-18T18:06:01.223803Z","iopub.execute_input":"2021-07-18T18:06:01.224132Z","iopub.status.idle":"2021-07-18T18:06:01.245433Z","shell.execute_reply.started":"2021-07-18T18:06:01.224102Z","shell.execute_reply":"2021-07-18T18:06:01.244396Z"}}
+# %% [code] {"jupyter":{"outputs_hidden":false}}
 test_dataset_metadata_df.tail(100)
